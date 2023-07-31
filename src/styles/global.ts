@@ -15,8 +15,6 @@ export const GlobalStyle = createGlobalStyle`
     outline: ${(props) => props.theme.purple} solid 2px;
   }
 
-  /* font-family: 'Baloo 2', cursive; */
-
   body {
     background: ${(props) => props.theme.background};
     color: ${(props) => props.theme['base-text']};
