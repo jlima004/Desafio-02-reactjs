@@ -9,9 +9,7 @@ export const LayoutContainer = styled.div`
   margin: 0 auto;
 `
 
-export const ContentContainer = styled.main`
-  margin-top: 6.5rem;
-`
+export const ContentContainer = styled.main``
 
 export const HeaderContainer = styled.div`
   position: fixed;
