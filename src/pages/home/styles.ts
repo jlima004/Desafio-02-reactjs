@@ -13,12 +13,20 @@ export const CoffesContainer = styled.div`
 
     display: block;
     margin-bottom: 3.375rem;
+
+    @media (max-width: 1336px) {
+      text-align: center;
+    }
   }
 `
 
 export const CoffeListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  column-gap: 2rem;
   row-gap: 2.5rem;
+
+  @media (max-width: 1336px) {
+    justify-content: center;
+  }
 `

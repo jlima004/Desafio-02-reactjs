@@ -12,6 +12,11 @@ export const IntroContainer = styled.div`
 
   line-height: 1.3;
 
+  @media (max-width: 1336px) {
+    gap: 4rem;
+    justify-content: center;
+  }
+
   div {
     max-width: 36.75rem;
     display: flex;
@@ -20,6 +25,10 @@ export const IntroContainer = styled.div`
 
     div.title {
       gap: 1rem;
+
+      @media (max-width: 661px) {
+        text-align: center;
+      }
 
       strong {
         margin-top: 0.062rem;
@@ -45,6 +54,11 @@ export const IntroContainer = styled.div`
       grid-row-gap: 1.25rem;
 
       max-width: 35.43rem;
+
+      @media (max-width: 661px) {
+        grid-template-columns: repeat(1, 14.43rem);
+        grid-template-rows: repeat(4, 1fr);
+      }
     }
   }
 
@@ -53,6 +67,11 @@ export const IntroContainer = styled.div`
     height: 22.5rem;
     max-width: 476px;
     max-height: 360px;
+
+    @media (max-width: 500px) {
+      height: auto;
+      width: 100%;
+    }
   }
 `
 

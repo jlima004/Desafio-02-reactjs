@@ -6,12 +6,31 @@ interface NavLinkProps {
 
 export const HeaderBox = styled.header<NavLinkProps>`
   height: 6.5rem;
-  padding: 2rem 0;
+  padding: 2rem 10rem;
 
   display: flex;
   justify-content: space-between;
 
   background: ${(props) => props.theme.background};
+
+  max-width: 90rem;
+  margin: 0 auto;
+
+  @media (max-width: 1400px) {
+    padding: 2rem 8rem;
+  }
+
+  @media (max-width: 1336px) {
+    padding: 2rem 10rem;
+  }
+
+  @media (max-width: 900px) {
+    padding: 2rem 5rem;
+  }
+
+  @media (max-width: 740px) {
+    padding: 2rem 2.5rem;
+  }
 
   img {
     width: 5.31rem;
