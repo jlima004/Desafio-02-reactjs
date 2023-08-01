@@ -13,5 +13,9 @@ export const ContentContainer = styled.main``
 
 export const HeaderContainer = styled.div`
   position: fixed;
-  width: 100%;
+
+  width: calc(100% - 10rem);
+  max-width: 70rem;
+
+  z-index: 1;
 `

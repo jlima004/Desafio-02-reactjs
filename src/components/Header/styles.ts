@@ -6,7 +6,6 @@ interface NavLinkProps {
 
 export const HeaderBox = styled.header<NavLinkProps>`
   height: 6.5rem;
-  max-width: 70rem;
   padding: 2rem 0;
 
   display: flex;
