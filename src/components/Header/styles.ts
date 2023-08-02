@@ -41,7 +41,7 @@ export const HeaderBox = styled.header<NavLinkProps>`
     display: flex;
     gap: 0.75rem;
 
-    a {
+    > a {
       text-decoration: none;
       font-size: 0.875rem;
       font-weight: 400;
@@ -53,20 +53,7 @@ export const HeaderBox = styled.header<NavLinkProps>`
 
       display: flex;
       align-items: center;
-    }
 
-    a.location {
-      color: ${(props) => props.theme['purple-dark']};
-      background-color: ${(props) => props.theme['purple-light']};
-
-      gap: 0.25rem;
-
-      svg {
-        color: ${(props) => props.theme.purple};
-        font-size: 1.375rem;
-      }
-    }
-    a.cart {
       background-color: ${(props) => props.theme['yellow-light']};
       position: relative;
 
@@ -99,5 +86,37 @@ export const HeaderBox = styled.header<NavLinkProps>`
         right: -7.5px;
       }
     }
+  }
+`
+
+export const LocationInputContainer = styled.div`
+  display: flex;
+  position: relative;
+
+  input[type='text'] {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.3;
+
+    max-width: 9.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 2.125rem;
+    border: 0;
+    border-radius: 6px;
+
+    color: ${(props) => props.theme['purple-dark']};
+    background-color: ${(props) => props.theme['purple-light']};
+
+    &::-webkit-calendar-picker-indicator {
+      display: none !important;
+    }
+  }
+
+  svg {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+
+    color: ${(props) => props.theme.purple};
+    font-size: 1.375rem;
   }
 `

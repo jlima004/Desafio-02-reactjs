@@ -3,19 +3,30 @@ import { NavLink } from 'react-router-dom'
 
 import logoCoffeDelivery from '../../assets/logo-coffe-delivery.svg'
 
-import { HeaderBox } from './styles'
+import { HeaderBox, LocationInputContainer } from './styles'
 
 export function Header() {
   return (
     <HeaderBox $cartItens={null}>
-      <img src={logoCoffeDelivery} alt="" />
+      <NavLink to="/">
+        <img src={logoCoffeDelivery} alt="" />
+      </NavLink>
 
       <nav>
-        <NavLink className="location" to="/">
+        <LocationInputContainer>
+          <input type="text" list="location-suggestions" />
+
           <MapPin weight="fill" />
-          Porto Alegre, RS
-        </NavLink>
-        <NavLink className="cart" to="/checkout">
+
+          <datalist id="location-suggestions">
+            <option value="Porto Alegre, RS" />
+            <option value="Florianópolis, SC" />
+            <option value="Curitiba, PR" />
+            <option value="São Paulo, SP" />
+          </datalist>
+        </LocationInputContainer>
+
+        <NavLink to="/checkout">
           <ShoppingCart weight="fill" />
         </NavLink>
       </nav>
