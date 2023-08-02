@@ -8,6 +8,10 @@ export const ContentContainer = styled.main`
   padding: 0 10rem;
   margin: 0 auto;
 
+  > div {
+    margin-top: 6.5rem;
+  }
+
   @media (max-width: 1400px) {
     padding: 0 8rem;
   }

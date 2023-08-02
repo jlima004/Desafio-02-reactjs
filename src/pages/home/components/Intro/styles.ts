@@ -8,7 +8,6 @@ export const IntroContainer = styled.div`
   flex-wrap: wrap;
 
   padding: 5.75rem 0;
-  margin-top: 6.5rem;
 
   line-height: 1.3;
 
