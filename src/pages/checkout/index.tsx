@@ -1,12 +1,18 @@
 import { MapPinLine } from '@phosphor-icons/react'
+
 import {
   CheckoutContainer,
   CheckoutCardContainer,
   TitleContainer,
   AddressTitleContainer,
 } from './styles'
+import { AddressForm, AddressFormData } from './components/AddressForm'
 
 export function Checkout() {
+  function handleSubmitAdressForm(data: AddressFormData) {
+    console.log(data)
+  }
+
   return (
     <CheckoutContainer>
       <div className="checkoutItem">
@@ -20,9 +26,8 @@ export function Checkout() {
               </div>
               <p>Informe o endereço onde deseja receber seu pedido</p>
             </AddressTitleContainer>
-            <form>
-              <input type="text" />
-            </form>
+
+            <AddressForm handleSubmitAdressForm={handleSubmitAdressForm} />
           </CheckoutCardContainer>
         </div>
 
