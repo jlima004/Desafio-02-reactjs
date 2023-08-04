@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { Minus, Plus } from '@phosphor-icons/react'
 import { InsputNumberContainer } from './styles'
 
-export function InputNumber() {
+interface InputNumberProps {
+  inputNumberHeight: string
+}
+
+export function InputNumber({ inputNumberHeight }: InputNumberProps) {
   const [qtd, setQtd] = useState(1)
 
   function handleMinusClick() {
@@ -26,7 +30,7 @@ export function InputNumber() {
   }
 
   return (
-    <InsputNumberContainer>
+    <InsputNumberContainer $inputNumberHeight={inputNumberHeight}>
       <Minus weight="bold" onClick={handleMinusClick} className="minus" />
       <input
         disabled={true}

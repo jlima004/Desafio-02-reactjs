@@ -23,7 +23,7 @@ export function Coffe() {
           <span>R$</span> 9,90
         </p>
         <div>
-          <InputNumber />
+          <InputNumber inputNumberHeight="2.375rem" />
 
           <button>
             <ShoppingCart weight="fill" />
