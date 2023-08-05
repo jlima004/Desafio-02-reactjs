@@ -1,69 +1,14 @@
-import { useForm } from 'react-hook-form'
-import * as zod from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormContext } from 'react-hook-form'
 
 import { AddressFormContainer } from './styled'
 
-const cepPatern = /^[0-9]{5}-[0-9]{3}$/
-
-const addressFormValidationSchema = zod.object({
-  bairro: zod
-    .string()
-    .nonempty('Esse campo é obrigatório!')
-    .min(3, { message: 'Esse campo deve ter no mínimo 3 caracteres' }),
-  cep: zod
-    .string()
-    .nonempty('Esse campo é obrigatório!')
-    .regex(cepPatern, { message: 'O CEP deve ter um formato válido' }),
-  cidade: zod
-    .string()
-    .nonempty('Esse campo é obrigatório!')
-    .min(3, { message: 'Esse campo deve ter no mínimo 3 caracteres' }),
-  complemento: zod.string(),
-  numero: zod
-    .string()
-    .nonempty('Esse campo é obrigatório!')
-    .min(1, { message: 'Esse campo deve ter no mínimo 1 caractere' }),
-  rua: zod
-    .string()
-    .nonempty('Esse campo é obrigatório!')
-    .min(2, { message: 'Esse campo deve ter no mínimo 2 caracteres' }),
-  uf: zod
-    .string()
-    .nonempty('Esse campo é obrigatório!')
-    .min(2, { message: 'Esse campo deve ter no mínimo 2 caracteres' })
-    .max(2, { message: 'Esse campo deve ter no máximo 2 caracteres' })
-    .toUpperCase(),
-})
-
-export type AddressFormData = zod.infer<typeof addressFormValidationSchema>
-
-interface AddressFormProps {
-  handleSubmitAdressForm: (data: AddressFormData) => void
-}
-
-export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
-  const addressFormHook = useForm<AddressFormData>({
-    resolver: zodResolver(addressFormValidationSchema),
-    defaultValues: {
-      bairro: '',
-      cep: '',
-      cidade: '',
-      complemento: '',
-      numero: '',
-      rua: '',
-      uf: '',
-    },
-  })
-
+export function AddressForm() {
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = addressFormHook
-
+  } = useFormContext()
   return (
-    <AddressFormContainer onSubmit={handleSubmit(handleSubmitAdressForm)}>
+    <AddressFormContainer>
       <input
         className={`cep ${errors.cep && 'inputError'}`}
         id="cep"
@@ -72,7 +17,7 @@ export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
         placeholder="CEP"
       />
       {errors.cep?.message && (
-        <span className="error">{errors.cep?.message}</span>
+        <span className="error">{errors.cep?.message as string}</span>
       )}
 
       <input
@@ -84,7 +29,7 @@ export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
       />
 
       {errors.rua?.message && (
-        <span className="error">{errors.rua?.message}</span>
+        <span className="error">{errors.rua?.message as string}</span>
       )}
 
       <div className="placeItens">
@@ -98,7 +43,7 @@ export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
           />
 
           {errors.numero?.message && (
-            <span className="error">{errors.numero?.message}</span>
+            <span className="error">{errors.numero?.message as string}</span>
           )}
 
           <input
@@ -111,7 +56,7 @@ export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
           />
 
           {errors.bairro?.message && (
-            <span className="error">{errors.bairro?.message}</span>
+            <span className="error">{errors.bairro?.message as string}</span>
           )}
         </div>
 
@@ -132,7 +77,7 @@ export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
             />
 
             {errors.cidade?.message && (
-              <span className="error">{errors.cidade?.message}</span>
+              <span className="error">{errors.cidade?.message as string}</span>
             )}
 
             <input
@@ -144,13 +89,11 @@ export function AddressForm({ handleSubmitAdressForm }: AddressFormProps) {
             />
 
             {errors.uf?.message && (
-              <span className="error">{errors.uf?.message}</span>
+              <span className="error">{errors.uf?.message as string}</span>
             )}
           </div>
         </div>
       </div>
-
-      {/* <button type="submit">Enviar</button> */}
     </AddressFormContainer>
   )
 }

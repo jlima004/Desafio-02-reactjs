@@ -8,7 +8,8 @@ export const ContentContainer = styled.main`
   padding: 0 10rem;
   margin: 0 auto;
 
-  > div {
+  > div,
+  > form {
     margin-top: 6.5rem;
   }
 

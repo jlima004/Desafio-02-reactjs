@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const AddressFormContainer = styled.form`
+export const AddressFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   column-gap: 0.75rem;
