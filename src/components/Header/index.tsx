@@ -1,13 +1,16 @@
-import { MapPin, ShoppingCart } from '@phosphor-icons/react'
+import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
+import { MapPin, ShoppingCart } from '@phosphor-icons/react'
 
 import logoCoffeDelivery from '../../assets/logo-coffe-delivery.svg'
 
+import { PurchaseContext } from '../../contexts/PurchaseContext'
 import { HeaderBox, LocationInputContainer } from './styles'
 
 export function Header() {
+  const { itens } = useContext(PurchaseContext)
   return (
-    <HeaderBox $cartItens={null}>
+    <HeaderBox $cartItens={itens.length > 0 ? itens.length : null}>
       <NavLink to="/">
         <img src={logoCoffeDelivery} alt="" />
       </NavLink>

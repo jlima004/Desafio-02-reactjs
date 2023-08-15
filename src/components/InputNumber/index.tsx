@@ -1,32 +1,31 @@
-import { useState } from 'react'
 import { Minus, Plus } from '@phosphor-icons/react'
 import { InsputNumberContainer } from './styles'
 
 interface InputNumberProps {
   inputNumberHeight: string
+  addQtd: (qtd: number) => void
+  qtd: number
 }
 
-export function InputNumber({ inputNumberHeight }: InputNumberProps) {
-  const [qtd, setQtd] = useState(1)
-
+export function InputNumber({
+  inputNumberHeight,
+  addQtd,
+  qtd,
+}: InputNumberProps) {
   function handleMinusClick() {
-    setQtd((state) => {
-      const newState = state - 1
+    const newState = qtd - 1
 
-      if (newState < 1) return state
+    if (newState < 1) return
 
-      return newState
-    })
+    addQtd(newState)
   }
 
   function handlePlusClick() {
-    setQtd((state) => {
-      const newState = state + 1
+    const newState = qtd + 1
 
-      if (newState > 99) return state
+    if (newState > 99) return
 
-      return newState
-    })
+    addQtd(newState)
   }
 
   return (

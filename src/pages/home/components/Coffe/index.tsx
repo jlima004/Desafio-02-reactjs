@@ -1,31 +1,48 @@
 import { ShoppingCart } from '@phosphor-icons/react'
 
-import coffeImg from '../../../../assets/coffes/expresso-tradicional.png'
-
 import { CoffeCardContainer } from './styles'
 import { InputNumber } from '../../../../components/InputNumber'
+import { useContext, useState } from 'react'
+import { CoffeData } from '../../../../contexts/PurchaseContext.interface'
+import { PurchaseContext } from '../../../../contexts/PurchaseContext'
+import { COFFE_IMG } from '../../../../utils/serveImg'
+import { formatPriceWithoutCurrency } from '../../../../utils/priceFormat'
 
-export function Coffe() {
+export function Coffe(coffe: CoffeData) {
+  const { buyCoffe } = useContext(PurchaseContext)
+
+  const [qtd, setQtd] = useState(1)
+
+  function handleClickBuyButton() {
+    buyCoffe({ ...coffe, qtd })
+  }
+
+  function addQtd(qtd: number) {
+    setQtd(qtd)
+  }
+
   return (
     <CoffeCardContainer>
       <header>
-        <img src={coffeImg} alt="" />
+        <img src={COFFE_IMG[coffe.img]} alt="" />
         <div>
-          <span>TRADICIONAL</span>
+          {coffe.tags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
         </div>
       </header>
       <div className="content">
-        <strong>Expresso Tradicional</strong>
-        <p>O tradicional café feito com água quente e grãos moídos</p>
+        <strong>{coffe.coffe}</strong>
+        <p>{coffe.info}</p>
       </div>
       <footer>
         <p>
-          <span>R$</span> 9,90
+          <span>R$</span> {formatPriceWithoutCurrency(coffe.valor)}
         </p>
         <div>
-          <InputNumber inputNumberHeight="2.375rem" />
+          <InputNumber inputNumberHeight="2.375rem" addQtd={addQtd} qtd={qtd} />
 
-          <button>
+          <button onClick={handleClickBuyButton}>
             <ShoppingCart weight="fill" />
           </button>
         </div>

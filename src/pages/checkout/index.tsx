@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useContext } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CurrencyDollar, MapPinLine } from '@phosphor-icons/react'
 
+import { PurchaseContext } from '../../contexts/PurchaseContext'
 import { AddressForm } from './components/AddressForm'
 import { CoffItemCard } from './components/CoffItemCard'
 import {
@@ -17,6 +19,7 @@ import {
   TitleContainer,
   AddressTitleContainer,
 } from './styles'
+import { formatPrice } from '../../utils/priceFormat'
 
 const PAYMENT_METHOD = {
   CARTAO_DE_CREDITO: 'CARTÃO DE CRÉDITO',
@@ -59,6 +62,17 @@ const addressFormValidationSchema = zod.object({
 export type AddressFormData = zod.infer<typeof addressFormValidationSchema>
 
 export function Checkout() {
+  const navigate = useNavigate()
+
+  const {
+    itens,
+    itensTotal,
+    total,
+    deliveryTax,
+    completeAddress,
+    changePaymentMethod,
+  } = useContext(PurchaseContext)
+
   const addressFormHook = useForm<AddressFormData>({
     resolver: zodResolver(addressFormValidationSchema),
     defaultValues: {
@@ -72,20 +86,16 @@ export function Checkout() {
     },
   })
 
-  const [paymentMethod, setPaymentMethod] =
-    useState<ActiveType>('CARTAO_DE_CREDITO')
-
   const { handleSubmit } = addressFormHook
 
   function handleSubmitAdressForm(data: AddressFormData) {
-    console.log({
-      ...data,
-      paymentMethod: PAYMENT_METHOD[paymentMethod],
-    })
+    completeAddress(data)
+
+    navigate('/success')
   }
 
   function handleSelectPaymentMethod(paymentMethodSelected: ActiveType) {
-    setPaymentMethod(paymentMethodSelected)
+    changePaymentMethod(PAYMENT_METHOD[paymentMethodSelected])
   }
 
   return (
@@ -138,10 +148,10 @@ export function Checkout() {
         <TitleContainer>Cafés selecionados</TitleContainer>
 
         <CheckoutCardContainer $internalgap={'1.5rem'} $alternativeRound={true}>
-          {[0, 1].map((card) => {
+          {itens.map((item) => {
             return (
-              <div key={card}>
-                <CoffItemCard key={card} />
+              <div key={item.id}>
+                <CoffItemCard key={item.id} item={item} />
                 <hr />
               </div>
             )
@@ -150,17 +160,17 @@ export function Checkout() {
           <div className="valorCard">
             <div>
               <p>Total de itens</p>
-              <strong>R$ 29,70</strong>
+              <strong>{formatPrice(itensTotal)}</strong>
             </div>
 
             <div>
               <p>Entrega</p>
-              <strong>R$ 3,50</strong>
+              <strong>{formatPrice(deliveryTax)}</strong>
             </div>
 
             <div className="total">
               <strong>Total</strong>
-              <strong>R$ 33,20</strong>
+              <strong>{formatPrice(total)}</strong>
             </div>
           </div>
 

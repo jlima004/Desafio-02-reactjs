@@ -1,3 +1,4 @@
+import { coffes } from '../../constants/coffes.constants'
 import { Coffe } from './components/Coffe'
 import { Intro } from './components/Intro'
 
@@ -11,12 +12,9 @@ export function Home() {
         <strong>Nossos cafés</strong>
 
         <CoffeListContainer>
-          <Coffe />
-          <Coffe />
-          <Coffe />
-          <Coffe />
-          <Coffe />
-          <Coffe />
+          {coffes.map((coffe) => (
+            <Coffe key={coffe.id} {...coffe} />
+          ))}
         </CoffeListContainer>
       </CoffesContainer>
     </>

@@ -77,16 +77,18 @@ export const CoffeCardContainer = styled.div`
 
     display: flex;
     justify-content: space-between;
+
     > p {
       font-family: 'Baloo 2', cursive;
       font-weight: 800;
       font-size: 1.5rem;
 
       color: ${(props) => props.theme['base-text']};
+
       > span {
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
-        font-size: 0.875;
+        font-size: 0.875rem;
       }
     }
     > div {
