@@ -36,22 +36,62 @@ interface PurchaseContextProviderProps {
 export function PurchaseContextProvider({
   children,
 }: PurchaseContextProviderProps) {
-  const [itensState, dispatch] = useReducer(itensReducer, {
-    itens: [],
-    buyState: 'VOID',
-  })
+  const [itensState, dispatch] = useReducer(
+    itensReducer,
+    { itens: [], buyState: 'VOID' },
+    (initialState) => {
+      const storedItemsStateAsJson = localStorage.getItem(
+        '@coffe-delivery:itens-state-1.0.0',
+      )
+
+      if (storedItemsStateAsJson) return JSON.parse(storedItemsStateAsJson)
+
+      return initialState
+    },
+  )
 
   const [itensTotal, setItensTotal] = useState(0)
   const [total, setTotal] = useState(0)
-  const [address, setAddress] = useState<Address>(VOID_ADDRESS)
-  const [paymentMethod, setPaymentMethod] =
-    useState<PaymentMethodData>('CARTÃO DE CRÉDITO')
+  const [address, setAddress] = useState<Address>(() => {
+    const storedAddressStateJson = localStorage.getItem(
+      '@coffe-delivery:address-state-1.0.0',
+    )
+
+    if (storedAddressStateJson) return JSON.parse(storedAddressStateJson)
+
+    return VOID_ADDRESS
+  })
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodData>(() => {
+    const storedPaymentMethodStateJson = localStorage.getItem(
+      '@coffe-delivery:payment-method-state-1.0.0',
+    )
+
+    if (storedPaymentMethodStateJson)
+      return JSON.parse(storedPaymentMethodStateJson)
+
+    return 'CARTÃO DE CRÉDITO'
+  })
 
   const deliveryTax = DELIVERY_TAX
 
   const { itens, buyState } = itensState
 
   useEffect(() => {
+    const itemsStateJson = JSON.stringify(itensState)
+    localStorage.setItem('@coffe-delivery:itens-state-1.0.0', itemsStateJson)
+
+    const addressStateJson = JSON.stringify(address)
+    localStorage.setItem(
+      '@coffe-delivery:address-state-1.0.0',
+      addressStateJson,
+    )
+
+    const paymentMethodStateJson = JSON.stringify(paymentMethod)
+    localStorage.setItem(
+      '@coffe-delivery:payment-method-state-1.0.0',
+      paymentMethodStateJson,
+    )
+
     const itemsTotal: number = itens.reduce((acum, { valor, qtd = 1 }) => {
       return acum + valor * qtd
     }, 0)
@@ -60,7 +100,7 @@ export function PurchaseContextProvider({
 
     setItensTotal(itemsTotal)
     setTotal(totalPurchase)
-  }, [buyState, deliveryTax, itens])
+  }, [address, deliveryTax, itens, itensState])
 
   function completeAddress(addressData: Address) {
     setAddress(addressData)
