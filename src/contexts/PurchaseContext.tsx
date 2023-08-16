@@ -1,12 +1,19 @@
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  useState,
+  useReducer,
+} from 'react'
 
 import {
-  BuyStateData,
   PaymentMethodData,
   CoffeData,
   PurchaseContextData,
   Address,
 } from './PurchaseContext.interface'
+import { itensReducer } from '../reducers/items/reducer'
+import { ActionTypes } from '../reducers/items/actions'
 
 const DELIVERY_TAX = 3.5
 
@@ -29,19 +36,22 @@ interface PurchaseContextProviderProps {
 export function PurchaseContextProvider({
   children,
 }: PurchaseContextProviderProps) {
-  const [itens, setItens] = useState<CoffeData[]>([])
+  const [itensState, dispatch] = useReducer(itensReducer, {
+    itens: [],
+    buyState: 'VOID',
+  })
+
   const [itensTotal, setItensTotal] = useState(0)
   const [total, setTotal] = useState(0)
   const [address, setAddress] = useState<Address>(VOID_ADDRESS)
-  const [buyState, setBuyState] = useState<BuyStateData>('VOID')
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentMethodData>('CARTÃO DE CRÉDITO')
 
   const deliveryTax = DELIVERY_TAX
 
-  useEffect(() => {
-    if (itens.length > 0 && buyState !== 'BUYED') setBuyState('BUYING')
+  const { itens, buyState } = itensState
 
+  useEffect(() => {
     const itemsTotal: number = itens.reduce((acum, { valor, qtd = 1 }) => {
       return acum + valor * qtd
     }, 0)
@@ -54,11 +64,9 @@ export function PurchaseContextProvider({
 
   function completeAddress(addressData: Address) {
     setAddress(addressData)
-    setBuyState('BUYED')
-  }
-
-  function changeBuyState(buySt: BuyStateData) {
-    setBuyState(buySt)
+    dispatch({
+      type: ActionTypes.COMPLETE_PURCHASE,
+    })
   }
 
   function changePaymentMethod(payMethod: PaymentMethodData) {
@@ -66,46 +74,25 @@ export function PurchaseContextProvider({
   }
 
   function changeQtd(coffe: CoffeData) {
-    const newState = itens.map((item) => {
-      if (item.id === coffe.id) return { ...item, qtd: coffe.qtd }
-
-      return item
+    dispatch({
+      type: ActionTypes.CHANGE_QTD,
+      payload: { coffeItem: coffe },
     })
-
-    setItens(newState)
   }
 
   function removeCoffe(id: number) {
-    const newState = itens.filter((item) => item.id !== id)
-
-    setItens(newState)
+    dispatch({
+      type: ActionTypes.REMOVE_COFFE,
+      payload: { idItem: id },
+    })
   }
 
   function buyCoffe(coffe: CoffeData) {
-    let newState: CoffeData[] = []
-
-    const newCoffeIndex = itens.findIndex((item) => item.id === coffe.id)
-
-    if (newCoffeIndex < 0) {
-      newState = [...itens, coffe]
-    } else {
-      newState = itens.map((item) => {
-        if (item.id === coffe.id) return { ...item, qtd: coffe.qtd }
-
-        return item
-      })
-    }
-
-    setItens(newState)
+    dispatch({
+      type: ActionTypes.ADD_NEW_COFFE,
+      payload: { coffeItem: coffe },
+    })
   }
-
-  /* function calculateTotalValueOfItems() {
-    const itemsTotal: number = itens.reduce((acum, { valor, qtd = 1 }) => {
-      return acum + valor * qtd
-    }, 0)
-
-    setItensTotal(itemsTotal)
-  } */
 
   return (
     <PurchaseContext.Provider
@@ -117,7 +104,6 @@ export function PurchaseContextProvider({
         total,
         deliveryTax,
         address,
-        changeBuyState,
         changePaymentMethod,
         buyCoffe,
         changeQtd,

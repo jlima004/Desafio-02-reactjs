@@ -35,7 +35,8 @@ export type PaymentMethodData =
   | 'CARTÃO DE CRÉDITO'
   | 'CARTÃO DE DÉBITO'
   | 'DINHEIRO'
-export type BuyStateData = 'VOID' | 'BUYING' | 'BUYED'
+
+type BuyStateData = 'VOID' | 'BUYING' | 'BUYED'
 
 export interface Address {
   bairro: string
@@ -46,6 +47,11 @@ export interface Address {
   rua: string
   uf: string
 }
+
+export interface ItemsState {
+  itens: CoffeData[]
+  buyState: BuyStateData
+}
 export interface PurchaseContextData {
   itens: CoffeData[]
   itensTotal: number
@@ -54,7 +60,6 @@ export interface PurchaseContextData {
   paymentMethod: PaymentMethodData
   address: Address
   buyState: BuyStateData
-  changeBuyState: (buySt: BuyStateData) => void
   changePaymentMethod: (payMethod: PaymentMethodData) => void
   buyCoffe: (coffe: CoffeData) => void
   changeQtd: (coffe: CoffeData) => void

@@ -18,8 +18,7 @@ export function CoffItemCard({ item }: CoffItemCardProps) {
 
   function addQtd(qtd: number) {
     const newState = item
-    newState.qtd = qtd
-    changeQtd(newState)
+    changeQtd({ ...newState, qtd })
   }
 
   function handleREmoveButtonClick() {

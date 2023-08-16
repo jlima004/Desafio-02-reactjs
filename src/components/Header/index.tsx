@@ -8,7 +8,7 @@ import { PurchaseContext } from '../../contexts/PurchaseContext'
 import { HeaderBox, LocationInputContainer } from './styles'
 
 export function Header() {
-  const { itens } = useContext(PurchaseContext)
+  const { itens, buyState } = useContext(PurchaseContext)
   return (
     <HeaderBox $cartItens={itens.length > 0 ? itens.length : null}>
       <NavLink to="/">
@@ -29,7 +29,7 @@ export function Header() {
           </datalist>
         </LocationInputContainer>
 
-        <NavLink to="/checkout">
+        <NavLink to={buyState === 'BUYED' ? '/success' : '/checkout'}>
           <ShoppingCart weight="fill" />
         </NavLink>
       </nav>
