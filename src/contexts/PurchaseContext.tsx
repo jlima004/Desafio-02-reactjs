@@ -100,7 +100,7 @@ export function PurchaseContextProvider({
 
     setItensTotal(itemsTotal)
     setTotal(totalPurchase)
-  }, [address, deliveryTax, itens, itensState])
+  }, [address, deliveryTax, itens, itensState, paymentMethod])
 
   function completeAddress(addressData: Address) {
     setAddress(addressData)
